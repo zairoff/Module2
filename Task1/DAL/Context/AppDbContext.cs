@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Task1.Models;
 
-namespace Task1.Dal.Context
+namespace Task1.DAL.Context
 {
     public class AppDbContext : DbContext
     {

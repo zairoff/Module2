@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Task1.Dal.IRepositories
+namespace Task1.DAL.IRepositories
 {
     public interface IRepository<T>
     {
