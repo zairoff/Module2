@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Task1.Repository.Core
+namespace Task1.DAL.UnitOfWork
 {
-    public class Repository
+    public interface IUnitOfWork : IDisposable
     {
     }
 }
