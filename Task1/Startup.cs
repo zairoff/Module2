@@ -33,8 +33,8 @@ namespace Task1
             services.AddControllersWithViews();
 
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IProductService, ProductService>();
 
-            //services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));

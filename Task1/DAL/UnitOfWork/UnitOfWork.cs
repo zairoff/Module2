@@ -13,6 +13,8 @@ namespace Task1.DAL.UnitOfWork
         {
             _context = context;
             Category = new CategoryRepository(_context);
+            Product = new ProductRepository(_context);
+            Supplier = new SupplierRepository(_context);
         }
 
         public ICategoryRepository Category { get; private set; }

@@ -28,7 +28,7 @@ namespace Task1.DAL.Repositories
             DbSet.Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await DbSet.ToListAsync();
         }

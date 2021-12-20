@@ -4,5 +4,6 @@ namespace Task1.DAL.IRepositories
 {
     public interface IProductRepository : IRepository<Product>
     {
+        
     }
 }
