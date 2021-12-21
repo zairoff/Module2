@@ -33,7 +33,7 @@ namespace Task1.DAL.Repositories
             return await DbSet.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
             return await DbSet.FindAsync(id);
         }

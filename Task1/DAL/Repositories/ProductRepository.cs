@@ -18,5 +18,10 @@ namespace Task1.DAL.Repositories
         {
             return await _context.Products.Include(p => p.Supplier).Include(p => p.Category).ToListAsync();
         }
+
+        public override async Task<Product> GetByIdAsync(int id)
+        {
+            return await _context.Products.Include(p => p.Supplier).Include(p => p.Category).FirstOrDefaultAsync();
+        }
     }
 }
