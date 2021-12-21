@@ -17,23 +17,25 @@
             <th scope="col">UnitsOnOrder</th>
             <th scope="col">RecorderLevel</th>
             <th scope="col">Discountinued</th>
+            <th scope="col">Edit</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var product in Model)
         {
-            <tr>
-                <td>@product.ProductID</td>
-                <td>@product.ProductName</td>
-                <td>@product.Supplier.CompanyName</td>
-                <td>@product.Category.CategoryName</td>
-                <td>@product.QuantityPerUnit</td>
-                <td>@product.UnitPrice</td>
-                <td>@product.UnitsInStock</td>
-                <td>@product.UnitsOnOrder</td>
-                <td>@product.ReorderLevel</td>
-                <td>@product.Discontinued</td>
-            </tr>
+        <tr>
+            <td>@product.ProductID</td>
+            <td>@product.ProductName</td>
+            <td>@product.Supplier.CompanyName</td>
+            <td>@product.Category.CategoryName</td>
+            <td>@product.QuantityPerUnit</td>
+            <td>@product.UnitPrice</td>
+            <td>@product.UnitsInStock</td>
+            <td>@product.UnitsOnOrder</td>
+            <td>@product.ReorderLevel</td>
+            <td>@product.Discontinued</td>
+            <td><a class="btn btn-primary" asp-controller="Product" asp-route-id="@product.ProductID" asp-action="Edit">Edit</a></td>
+        </tr>
         }
     </tbody>
 </table>

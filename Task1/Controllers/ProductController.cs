@@ -22,5 +22,20 @@ namespace Task1.Controllers
 
             return View(products);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var product = await _productService.GetByIdAsync(id);
+
+            return View(product);
+        }
+
+        [HttpPut]
+        [ActionName("Edit")]
+        public async Task<IActionResult> EditPut(int id)
+        {
+            return Content(id.ToString());
+        }
     }
 }

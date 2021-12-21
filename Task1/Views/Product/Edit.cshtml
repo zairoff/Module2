@@ -1,0 +1,43 @@
+﻿@model Product
+
+<form asp-controller="Product" asp-action="Edit" method="post">
+    <label asp-for="ProductName" class="form-label">ProductName</label>
+    <input type="text" asp-for="ProductName" class="form-control" value="@Model.ProductName" />
+    <br />
+
+    <label asp-for="QuantityPerUnit" class="form-label">QuantityPerUnit</label>
+    <input type="text" asp-for="QuantityPerUnit" class="form-control" value="@Model.QuantityPerUnit" />
+    <br />
+
+    <label asp-for="UnitPrice" class="form-label">UnitPrice</label>
+    <input type="text" asp-for="UnitPrice" class="form-control" value="@Model.UnitPrice" />
+    <br />
+
+    <label asp-for="UnitsInStock" class="form-label">UnitsInStock</label>
+    <input type="text" asp-for="UnitsInStock" class="form-control" value="@Model.UnitsInStock" />
+    <br />
+
+    <label asp-for="UnitsOnOrder" class="form-label">UnitsOnOrder</label>
+    <input type="text" asp-for="UnitsOnOrder" class="form-control" value="@Model.UnitsOnOrder" />
+    <br />
+
+    <label asp-for="ReorderLevel" class="form-label">ReorderLevel</label>
+    <input type="text" asp-for="ReorderLevel" class="form-control" value="@Model.ReorderLevel" />
+    <br />
+
+    <label asp-for="Discontinued" class="form-label">Discontinued</label>
+    <input type="text" asp-for="Discontinued" class="form-control" value="@Model.Discontinued" />
+    <br />
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            @Model.Category.CategoryName
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </div>
+
+</form>
