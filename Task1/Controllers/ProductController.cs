@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Task1.Models;
 using Task1.Services.Contracts;
 using Task1.ViewModels;
 
@@ -31,24 +30,96 @@ namespace Task1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var productViewModel = new ProductViewModel
+            var product = await _productService.GetByIdAsync(id);
+            var categories = await _categoryService.GetAllAsync();
+            var suppliers = await _supplierService.GetAllAsync();
+
+            var productViewModel = new ProductUpdateViewModel
             {
-                Product = await _productService.GetByIdAsync(id),
-                Categories = await _categoryService.GetAllAsync(),
-                Suppliers = await _supplierService.GetAllAsync()
+                Product = ProductToView(product),
+                Categories = CategoryToView(categories),
+                Suppliers = SupplierToView(suppliers)
             };
 
             return View(productViewModel);
-        }
+        }    
 
         [HttpPost]
-        [ActionName("Edit")]
-        public async Task<IActionResult> EditPost()
+        public async Task<IActionResult> Edit(ProductUpdateViewModel productUpdateViewModel)
         {
-            if (ModelState.IsValid)
-                return Content(ModelState.Values.ToString());
+            if (!ModelState.IsValid)
+                return Content("Model state is not valid");
 
-            return Content(id.ToString());
+            if(productUpdateViewModel.Product.ProductID == 0)
+                _productService.
+
+            return Content("");
+        }
+
+    // Temporary
+        private ProductViewModel ProductToView(Product product)
+        {
+            return new ProductViewModel
+            {
+                ProductID = product.ProductID,
+                CategoryID = product.CategoryID,
+                SupplierID = product.SupplierID,
+                Discontinued = product.Discontinued,
+                ProductName = product.ProductName,
+                QuantityPerUnit = product.QuantityPerUnit,
+                ReorderLevel = product.ReorderLevel,
+                UnitPrice = product.UnitPrice,
+                UnitsInStock = product.UnitsInStock,
+                UnitsOnOrder = product.UnitsOnOrder
+            };
+        }
+
+        private IEnumerable<CategoryViewModel> CategoryToView(IEnumerable<Category> categories)
+        {
+            var categoryViews = new List<CategoryViewModel>();
+
+            foreach (var category in categories)
+            {
+                var categoryView = new CategoryViewModel
+                {
+                    CategoryID = category.CategoryID,
+                    CategoryName = category.CategoryName,
+                    Description = category.Description,
+                    Picture = category.Picture
+                };
+
+                categoryViews.Add(categoryView);
+            }
+
+            return categoryViews;
+        }
+
+        private IEnumerable<SupplierViewModel> SupplierToView(IEnumerable<Supplier> suppliers)
+        {
+            var supplierViews = new List<SupplierViewModel>();
+
+            foreach (var supplier in suppliers)
+            {
+                var supplierView = new SupplierViewModel
+                {
+                    SupplierID = supplier.SupplierID,
+                    Address = supplier.Address,
+                    City = supplier.City,
+                    CompanyName = supplier.CompanyName,
+                    ContactName = supplier.ContactName,
+                    ContactTitle = supplier.ContactTitle,
+                    Country = supplier.Country,
+                    Fax = supplier.Fax,
+                    HomePage = supplier.HomePage,
+                    Phone = supplier.Phone,
+                    PostalCode = supplier.PostalCode,
+                    Region = supplier.Region
+                };
+
+                supplierViews.Add(supplierView);
+            }
+
+            return supplierViews;
         }
     }
 }

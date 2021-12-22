@@ -1,6 +1,9 @@
-﻿@model Task1.ViewModels.ProductViewModel
+﻿@model Task1.ViewModels.ProductUpdateViewModel
 
 <form asp-controller="Product" asp-action="Edit" method="post">
+
+    <div asp-validation-summary="All" class="input-validation-error"></div>
+
     <label asp-for="Product.ProductName" class="form-label">ProductName</label>
     <input type="text" asp-for="Product.ProductName" class="form-control" value="@Model.Product.ProductName" />
     <br />
@@ -29,8 +32,8 @@
     <input type="text" asp-for="Product.Discontinued" class="form-control" value="@Model.Product.Discontinued" />
     <br />
 
-    <label asp-for="Categories" class="form-label">Categories</label>
-    <select class="form-select form-select" aria-label="Default select example">
+    <label asp-for="Product.CategoryID" class="form-label">Categories</label>
+    <select asp-for="Product.CategoryID" class="form-select form-select" aria-label="Default select example">
         @{
             foreach (var category in Model.Categories)
             {
@@ -40,8 +43,8 @@
     </select>
     <br />
 
-    <label asp-for="Suppliers" class="form-label">Suppliers</label>
-    <select class="form-select form-select" aria-label="Default select example">
+    <label asp-for="Product.SupplierID" class="form-label">Suppliers</label>
+    <select asp-for="Product.SupplierID" class="form-select form-select" aria-label="Default select example">
         @{
             foreach (var supplier in Model.Suppliers)
             {
