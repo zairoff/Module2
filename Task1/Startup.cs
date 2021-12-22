@@ -34,6 +34,7 @@ namespace Task1
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ISupplierService, SupllierService>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 

@@ -1,43 +1,56 @@
-﻿@model Product
+﻿@model Task1.ViewModels.ProductViewModel
 
 <form asp-controller="Product" asp-action="Edit" method="post">
-    <label asp-for="ProductName" class="form-label">ProductName</label>
-    <input type="text" asp-for="ProductName" class="form-control" value="@Model.ProductName" />
+    <label asp-for="Product.ProductName" class="form-label">ProductName</label>
+    <input type="text" asp-for="Product.ProductName" class="form-control" value="@Model.Product.ProductName" />
     <br />
 
-    <label asp-for="QuantityPerUnit" class="form-label">QuantityPerUnit</label>
-    <input type="text" asp-for="QuantityPerUnit" class="form-control" value="@Model.QuantityPerUnit" />
+    <label asp-for="Product.QuantityPerUnit" class="form-label">QuantityPerUnit</label>
+    <input type="text" asp-for="Product.QuantityPerUnit" class="form-control" value="@Model.Product.QuantityPerUnit" />
     <br />
 
-    <label asp-for="UnitPrice" class="form-label">UnitPrice</label>
-    <input type="text" asp-for="UnitPrice" class="form-control" value="@Model.UnitPrice" />
+    <label asp-for="Product.UnitPrice" class="form-label">UnitPrice</label>
+    <input type="text" asp-for="Product.UnitPrice" class="form-control" value="@Model.Product.UnitPrice" />
     <br />
 
-    <label asp-for="UnitsInStock" class="form-label">UnitsInStock</label>
-    <input type="text" asp-for="UnitsInStock" class="form-control" value="@Model.UnitsInStock" />
+    <label asp-for="Product.UnitsInStock" class="form-label">UnitsInStock</label>
+    <input type="text" asp-for="Product.UnitsInStock" class="form-control" value="@Model.Product.UnitsInStock" />
     <br />
 
-    <label asp-for="UnitsOnOrder" class="form-label">UnitsOnOrder</label>
-    <input type="text" asp-for="UnitsOnOrder" class="form-control" value="@Model.UnitsOnOrder" />
+    <label asp-for="Product.UnitsOnOrder" class="form-label">UnitsOnOrder</label>
+    <input type="text" asp-for="Product.UnitsOnOrder" class="form-control" value="@Model.Product.UnitsOnOrder" />
     <br />
 
-    <label asp-for="ReorderLevel" class="form-label">ReorderLevel</label>
-    <input type="text" asp-for="ReorderLevel" class="form-control" value="@Model.ReorderLevel" />
+    <label asp-for="Product.ReorderLevel" class="form-label">ReorderLevel</label>
+    <input type="text" asp-for="Product.ReorderLevel" class="form-control" value="@Model.Product.ReorderLevel" />
     <br />
 
-    <label asp-for="Discontinued" class="form-label">Discontinued</label>
-    <input type="text" asp-for="Discontinued" class="form-control" value="@Model.Discontinued" />
+    <label asp-for="Product.Discontinued" class="form-label">Discontinued</label>
+    <input type="text" asp-for="Product.Discontinued" class="form-control" value="@Model.Product.Discontinued" />
     <br />
 
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            @Model.Category.CategoryName
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-    </div>
+    <label asp-for="Categories" class="form-label">Categories</label>
+    <select class="form-select form-select" aria-label="Default select example">
+        @{
+            foreach (var category in Model.Categories)
+            {
+                <option value=@category.CategoryID>@category.CategoryName</option>
+            }
+        }
+    </select>
+    <br />
+
+    <label asp-for="Suppliers" class="form-label">Suppliers</label>
+    <select class="form-select form-select" aria-label="Default select example">
+        @{
+            foreach (var supplier in Model.Suppliers)
+            {
+                <option value=@supplier.SupplierID>@supplier.CompanyName</option>
+            }
+        }
+    </select>
+    <br />
+
+    <button type="submit" class="btn btn-primary">Update</button>
 
 </form>
