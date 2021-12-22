@@ -1,8 +1,22 @@
 ﻿@model Task1.ViewModels.ProductUpdateViewModel
 
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<p>@ViewBag.Title</p>
 <form asp-controller="Product" asp-action="Edit" method="post">
 
     <div asp-validation-summary="All" class="input-validation-error"></div>
+
+    @{
+        if (ViewBag.Title.Contains("Update"))
+        {
+        <label asp-for="Product.ProductID" class="form-label">ProductID</label>
+            <input type="text" asp-for="Product.ProductID" class="form-control" value="@Model.Product.ProductID" readonly/>
+            <br />
+        }
+    }
 
     <label asp-for="Product.ProductName" class="form-label">ProductName</label>
     <input type="text" asp-for="Product.ProductName" class="form-control" value="@Model.Product.ProductName" />

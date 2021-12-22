@@ -21,7 +21,11 @@ namespace Task1.DAL.Repositories
 
         public override async Task<Product> GetByIdAsync(int id)
         {
-            return await _context.Products.Include(p => p.Supplier).Include(p => p.Category).FirstOrDefaultAsync();
+            return await _context.Products
+                                .Include(p => p.Supplier)
+                                .Include(p => p.Category)
+                                .Where(p => p.ProductID == id)
+                                .FirstOrDefaultAsync();
         }
     }
 }

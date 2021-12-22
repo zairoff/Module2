@@ -41,6 +41,8 @@ namespace Task1.Controllers
                 Suppliers = SupplierToView(suppliers)
             };
 
+            ViewBag.Title = "Update Product";
+
             return View(productViewModel);
         }    
 

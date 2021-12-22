@@ -9,8 +9,6 @@ namespace Task1.ViewModels
 {
     public class ProductUpdateViewModel
     {
-        [Required]
-
         public ProductViewModel Product { get; set; }
 
         public IEnumerable<CategoryViewModel> Categories { get; set; }
