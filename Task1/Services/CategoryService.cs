@@ -18,6 +18,14 @@ namespace Task1.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<Category> AddAsync(Category entity)
+        {
+            await _unitOfWork.Category.AddAsync(entity);
+            await _unitOfWork.CompleteAsync();
+
+            return entity;
+        }
+
         public async Task<Category> DeleteAsync(int id)
         {
             var category = await _unitOfWork.Category.GetByIdAsync(id);

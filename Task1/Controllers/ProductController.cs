@@ -50,13 +50,16 @@ namespace Task1.Controllers
             if (!ModelState.IsValid)
                 return Content("Model state is not valid");
 
-            if(productUpdateViewModel.Product.ProductID == 0)
-                _productService.
+            var product = ViewToProduct(productUpdateViewModel.Product);
+            if (product.ProductID == 0)
+                await _productService.AddAsync(product);
+            else
+                await _productService.UpdateAsync(product);
 
-            return Content("");
+            return RedirectToAction(nameof(Index));
         }
 
-    // Temporary
+        // Temporary
         private ProductViewModel ProductToView(Product product)
         {
             return new ProductViewModel
@@ -71,6 +74,23 @@ namespace Task1.Controllers
                 UnitPrice = product.UnitPrice,
                 UnitsInStock = product.UnitsInStock,
                 UnitsOnOrder = product.UnitsOnOrder
+            };
+        }
+
+        private Product ViewToProduct(ProductViewModel productView)
+        {
+            return new Product
+            {
+                ProductID = productView.ProductID,
+                CategoryID = productView.CategoryID,
+                SupplierID = productView.SupplierID,
+                Discontinued = productView.Discontinued,
+                ProductName = productView.ProductName,
+                QuantityPerUnit = productView.QuantityPerUnit,
+                ReorderLevel = productView.ReorderLevel,
+                UnitPrice = productView.UnitPrice,
+                UnitsInStock = productView.UnitsInStock,
+                UnitsOnOrder = productView.UnitsOnOrder
             };
         }
 

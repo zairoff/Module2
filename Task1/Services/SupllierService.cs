@@ -18,6 +18,14 @@ namespace Task1.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<Supplier> AddAsync(Supplier entity)
+        {
+            await _unitOfWork.Supplier.AddAsync(entity);
+            await _unitOfWork.CompleteAsync();
+
+            return entity;
+        }
+
         public async Task<Supplier> DeleteAsync(int id)
         {
             var supplier = await _unitOfWork.Supplier.GetByIdAsync(id);
