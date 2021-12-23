@@ -1,0 +1,73 @@
+﻿@model Task1.ViewModels.ProductUpdateViewModel
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<p>@ViewBag.Title</p>
+<form asp-controller="Product" asp-action="Edit" method="post">
+
+    <div asp-validation-summary="All" class="input-validation-error"></div>
+
+    @{
+        if (ViewBag.Title.Contains("Update"))
+        {
+        <label asp-for="Product.ProductID" class="form-label">ProductID</label>
+            <input type="text" asp-for="Product.ProductID" class="form-control" value="@Model.Product.ProductID" readonly/>
+            <br />
+        }
+    }
+
+    <label asp-for="Product.ProductName" class="form-label">ProductName</label>
+    <input type="text" asp-for="Product.ProductName" class="form-control" value="@Model.Product.ProductName" />
+    <br />
+
+    <label asp-for="Product.QuantityPerUnit" class="form-label">QuantityPerUnit</label>
+    <input type="text" asp-for="Product.QuantityPerUnit" class="form-control" value="@Model.Product.QuantityPerUnit" />
+    <br />
+
+    <label asp-for="Product.UnitPrice" class="form-label">UnitPrice</label>
+    <input type="text" asp-for="Product.UnitPrice" class="form-control" value="@Model.Product.UnitPrice" />
+    <br />
+
+    <label asp-for="Product.UnitsInStock" class="form-label">UnitsInStock</label>
+    <input type="text" asp-for="Product.UnitsInStock" class="form-control" value="@Model.Product.UnitsInStock" />
+    <br />
+
+    <label asp-for="Product.UnitsOnOrder" class="form-label">UnitsOnOrder</label>
+    <input type="text" asp-for="Product.UnitsOnOrder" class="form-control" value="@Model.Product.UnitsOnOrder" />
+    <br />
+
+    <label asp-for="Product.ReorderLevel" class="form-label">ReorderLevel</label>
+    <input type="text" asp-for="Product.ReorderLevel" class="form-control" value="@Model.Product.ReorderLevel" />
+    <br />
+
+    <label asp-for="Product.Discontinued" class="form-label">Discontinued</label>
+    <input type="text" asp-for="Product.Discontinued" class="form-control" value="@Model.Product.Discontinued" />
+    <br />
+
+    <label asp-for="Product.CategoryID" class="form-label">Categories</label>
+    <select asp-for="Product.CategoryID" class="form-select form-select" aria-label="Default select example">
+        @{
+            foreach (var category in Model.Categories)
+            {
+                <option value=@category.CategoryID>@category.CategoryName</option>
+            }
+        }
+    </select>
+    <br />
+
+    <label asp-for="Product.SupplierID" class="form-label">Suppliers</label>
+    <select asp-for="Product.SupplierID" class="form-select form-select" aria-label="Default select example">
+        @{
+            foreach (var supplier in Model.Suppliers)
+            {
+                <option value=@supplier.SupplierID>@supplier.CompanyName</option>
+            }
+        }
+    </select>
+    <br />
+
+    <button type="submit" class="btn btn-primary">Update</button>
+
+</form>

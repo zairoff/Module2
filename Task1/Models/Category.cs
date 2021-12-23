@@ -14,6 +14,6 @@ namespace Task1.Models
 
         public string Description { get; set; }
 
-        public Image Picture { get; set; }
+        public byte[] Picture { get; set; }
     }
 }

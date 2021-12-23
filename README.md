@@ -1,0 +1,6 @@
+- ASP.NET - Making an ASP.NET Core Website
+- ASP.NET - Adding Data to an ASP.NET Core Website
+- ASP.NET - Adding a Service to an ASP.NET Core Website
+- Logging Basics in ASP.NET Core
+- Structured Logging with Serilog in ASP.NET Core
+- Advanced Configuration
