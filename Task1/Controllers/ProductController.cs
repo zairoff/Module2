@@ -28,9 +28,9 @@ namespace Task1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var product = await _productService.GetByIdAsync(id);
+            var product = id == null ? new Product() : await _productService.GetByIdAsync((int)id);
             var categories = await _categoryService.GetAllAsync();
             var suppliers = await _supplierService.GetAllAsync();
 
@@ -41,7 +41,7 @@ namespace Task1.Controllers
                 Suppliers = SupplierToView(suppliers)
             };
 
-            ViewBag.Title = "Update Product";
+            ViewBag.Title = id == null ? "New Product" : "Update Product";
 
             return View(productViewModel);
         }    
