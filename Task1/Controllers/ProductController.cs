@@ -25,9 +25,9 @@ namespace Task1.Controllers
             var products = await _productService.GetAllAsync();
 
             return View(products);
-        }
+        }        
 
-        [HttpGet]
+        [HttpGet, Route("Edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             var product = id == null ? new Product() : await _productService.GetByIdAsync((int)id);
@@ -44,13 +44,16 @@ namespace Task1.Controllers
             ViewBag.Title = id == null ? "New Product" : "Update Product";
 
             return View(productViewModel);
-        }    
+        }
 
-        [HttpPost]
+        [HttpPost, Route("Edit")]
         public async Task<IActionResult> Edit(ProductUpdateViewModel productUpdateViewModel)
         {
             if (!ModelState.IsValid)
-                return Content("Model state is not valid");
+            {
+                ViewBag.Title = "Update Product";
+                return View();
+            }                
 
             var product = ViewToProduct(productUpdateViewModel.Product);
             if (product.ProductID == 0)
