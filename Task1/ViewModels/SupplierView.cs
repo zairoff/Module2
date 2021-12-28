@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task1.ViewModels
 {
-    public class SupplierViewModel
+    public class SupplierView
     {
         public int SupplierID { get; set; }
 

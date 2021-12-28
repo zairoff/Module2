@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task1.ViewModels
 {
-    public class CategoryViewModel
+    public class CategoryView
     {
         public int CategoryID { get; set; }
 

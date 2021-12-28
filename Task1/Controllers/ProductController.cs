@@ -47,7 +47,7 @@ namespace Task1.Controllers
         }
 
         [HttpPost, Route("Edit")]
-        public async Task<IActionResult> Edit(ProductUpdateViewModel productUpdateViewModel)
+        public async Task<IActionResult> Edit(ProductView productViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -65,9 +65,9 @@ namespace Task1.Controllers
         }
 
         // Temporary
-        private ProductViewModel ProductToView(Product product)
+        private ProductView ProductToView(Product product)
         {
-            return new ProductViewModel
+            return new ProductView
             {
                 ProductID = product.ProductID,
                 CategoryID = product.CategoryID,
@@ -82,7 +82,7 @@ namespace Task1.Controllers
             };
         }
 
-        private Product ViewToProduct(ProductViewModel productView)
+        private Product ViewToProduct(ProductView productView)
         {
             return new Product
             {
@@ -99,13 +99,13 @@ namespace Task1.Controllers
             };
         }
 
-        private IEnumerable<CategoryViewModel> CategoryToView(IEnumerable<Category> categories)
+        private IEnumerable<CategoryView> CategoryToView(IEnumerable<Category> categories)
         {
-            var categoryViews = new List<CategoryViewModel>();
+            var categoryViews = new List<CategoryView>();
 
             foreach (var category in categories)
             {
-                var categoryView = new CategoryViewModel
+                var categoryView = new CategoryView
                 {
                     CategoryID = category.CategoryID,
                     CategoryName = category.CategoryName,
@@ -119,13 +119,13 @@ namespace Task1.Controllers
             return categoryViews;
         }
 
-        private IEnumerable<SupplierViewModel> SupplierToView(IEnumerable<Supplier> suppliers)
+        private IEnumerable<SupplierView> SupplierToView(IEnumerable<Supplier> suppliers)
         {
-            var supplierViews = new List<SupplierViewModel>();
+            var supplierViews = new List<SupplierView>();
 
             foreach (var supplier in suppliers)
             {
-                var supplierView = new SupplierViewModel
+                var supplierView = new SupplierView
                 {
                     SupplierID = supplier.SupplierID,
                     Address = supplier.Address,
