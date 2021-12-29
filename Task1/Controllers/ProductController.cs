@@ -110,7 +110,7 @@ namespace Task1.Controllers
         {
             return new Product
             {
-                ProductID = productView.ProductID,
+                ProductID = (productView.ProductID == null) ? 0 : (int)productView.ProductID,
                 CategoryID = productView.CategoryID,
                 SupplierID = productView.SupplierID,
                 Discontinued = productView.Discontinued,

@@ -8,7 +8,7 @@ namespace Task1.ViewModels.Product
 {
     public class ProductView
     {
-        public int ProductID { get; set; }
+        public int? ProductID { get; set; }
 
         [Required]
         public string ProductName { get; set; }
