@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Task1.ViewModels
+namespace Task1.ViewModels.Product
 {
     public class ProductView
     {

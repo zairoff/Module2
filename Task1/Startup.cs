@@ -32,13 +32,17 @@ namespace Task1
         {
             services.AddControllersWithViews();
 
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<ISupplierService, SupllierService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ISupplierService, SupllierService>();
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
 
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             services.AddDbContext<AppDbContext>(options =>
                                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

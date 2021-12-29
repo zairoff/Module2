@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Task1.Models;
 using Task1.Services.Contracts;
 using Task1.ViewModels;
+using Task1.ViewModels.Product;
 
 namespace Task1.Controllers
 {
@@ -28,40 +29,63 @@ namespace Task1.Controllers
         }        
 
         [HttpGet, Route("Edit")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var product = id == null ? new Product() : await _productService.GetByIdAsync((int)id);
-            var categories = await _categoryService.GetAllAsync();
-            var suppliers = await _supplierService.GetAllAsync();
+            ViewBag.Title = "Update Product";
+            await PopulateDropdownList();
+            var product = await _productService.GetByIdAsync((int)id);
+            var productView = ProductToView(product);
 
-            var productViewModel = new ProductUpdateViewModel
-            {
-                Product = ProductToView(product),
-                Categories = CategoryToView(categories),
-                Suppliers = SupplierToView(suppliers)
-            };
-
-            ViewBag.Title = id == null ? "New Product" : "Update Product";
-
-            return View(productViewModel);
+            return View(productView);
         }
 
         [HttpPost, Route("Edit")]
-        public async Task<IActionResult> Edit(ProductView productViewModel)
+        public async Task<IActionResult> Edit(ProductView productView)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.Title = "Update Product";
-                return View();
+                await PopulateDropdownList();
+                return View(productView);
             }                
 
-            var product = ViewToProduct(productUpdateViewModel.Product);
-            if (product.ProductID == 0)
-                await _productService.AddAsync(product);
-            else
-                await _productService.UpdateAsync(product);
+            var product = ViewToProduct(productView);
+           
+            await _productService.UpdateAsync(product);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet, Route("Create")]
+        public async Task<IActionResult> Create()
+        {
+            await PopulateDropdownList();
+            ViewBag.Title = "New Product";
+
+            return View();
+        }
+
+        [HttpPost, Route("Create")]
+        public async Task<IActionResult> Create(ProductView productView)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Title = "New Product";
+                await PopulateDropdownList();
+                return View(productView);
+            }
+
+            var product = ViewToProduct(productView);
+
+            await _productService.AddAsync(product);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task PopulateDropdownList()
+        {
+            ViewBag.Categories = await _categoryService.GetAllAsync();
+            ViewBag.Suppliers = await _supplierService.GetAllAsync();
         }
 
         // Temporary
