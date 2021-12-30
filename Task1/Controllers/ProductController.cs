@@ -26,10 +26,10 @@ namespace Task1.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _productService.GetAllAsync();
+            throw new KeyNotFoundException();
+            //var products = await _productService.GetAllAsync();
 
-            _logger.LogInformation("Product page visited");
-            return View(products);
+            //return View(products);
         }        
 
         [HttpGet, Route("Edit")]

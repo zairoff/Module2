@@ -14,6 +14,7 @@ using Task1.Context;
 using Task1.DAL.IRepositories;
 using Task1.DAL.Repositories;
 using Task1.DAL.UnitOfWork;
+using Task1.ExceptionHandler;
 using Task1.Services;
 using Task1.Services.Contracts;
 
@@ -62,6 +63,8 @@ namespace Task1
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 
             loggerFactory.AddFile("Logs/log-{Date}.txt");
 
