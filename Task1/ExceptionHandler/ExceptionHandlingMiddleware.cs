@@ -42,21 +42,14 @@ namespace Task1.ExceptionHandler
             var action = request.RouteValues["action"].ToString();
             _logger.LogWarning($"Unhandled exception occured controller: {controller} : action: {action} => {ex.Message}");
 
-            /*
-            var errorView = new ErrorView { RequestId = Activity.Current?.Id ?? httpContext.TraceIdentifier };
-
             var result = new ViewResult
             {
-                ViewName = "Error",
-                ViewData = new ViewDataDictionary()
-                {
-                    Model = errorView
-                }
+                ViewName = "Error"                
             };
-            */
+            
             //var result = new ObjectResult(errorView);
             // TODO: here we should return view
-            await httpContext.Response.WriteAsync("Unhandled exception occured");
+            await httpContext.WriteResultAsync(result);
         }
     }
 }
