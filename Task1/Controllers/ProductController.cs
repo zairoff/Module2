@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Task1.Models;
@@ -13,18 +14,21 @@ namespace Task1.Controllers
         private readonly IProductService _productService;
         private readonly ISupplierService _supplierService;
         private readonly ICategoryService _categoryService;
+        private readonly ILogger _logger;
 
-        public ProductController(IProductService productService, ISupplierService supplierService, ICategoryService categoryService)
+        public ProductController(IProductService productService, ISupplierService supplierService, ICategoryService categoryService, ILogger<ProductController> logger)
         {
             _productService = productService;
             _supplierService = supplierService;
             _categoryService = categoryService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetAllAsync();
 
+            _logger.LogInformation("Product page visited");
             return View(products);
         }        
 
