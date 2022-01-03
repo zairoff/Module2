@@ -1,45 +1,41 @@
-﻿using Moq;
-using NUnit.Framework;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Task1.DAL.IRepositories;
+using Task1.Controllers;
 using Task1.Models;
-using Task1.Services;
 using Task1.Services.Contracts;
+using Xunit;
 
 namespace Task1Test.Controller
 {
-    [TestFixture]
     public class CategoryControllerTests
     {
-        private Mock<ICategoryRepository> _mockRepo;
-        private ICategoryService _service;
-        private readonly Category category1 = new() { CategoryID = 1, CategoryName = "A", Description = "B" };
-        private readonly Category category2 = new() { CategoryID = 2, CategoryName = "C", Description = "D" };
+            private Mock<ICategoryService> _mockService;
+            private CategoryController _controller;
+            private readonly Category category1 = new() { CategoryID = 1, CategoryName = "A", Description = "B" };
+            private readonly Category category2 = new() { CategoryID = 2, CategoryName = "C", Description = "D" };
 
-        [SetUp]
-        public void Setup()
+        public CategoryControllerTests()
         {
-            _mockRepo = new Mock<ICategoryRepository>();
-            _service = new CategoryService(/*unitofwork*/ null, _mockRepo.Object);
+            _mockService = new Mock<ICategoryService>();
+            _controller = new CategoryController(_mockService.Object);
         }
 
-        [Test]
-        public async Task GetAll_Should_Return_All_Categories()
+        [Fact]
+        public async Task Index_ReturnsAViewResult_WithListOfCategories()
         {
-            var entities = new List<Category> { category1, category2 };
-            var expectedResult = new List<Category> { category1, category2 };
+            var mockedResult = new List<Category> { category1, category2 };
+            var expected = new List<Category> { category1, category2 };
 
-            _mockRepo.Setup(c => c.GetAllAsync()).ReturnsAsync(entities);
+            _mockService.Setup(c => c.GetAllAsync()).ReturnsAsync(expected);
 
-            var result = await _service.GetAllAsync();
+            var result = await _controller.Index();
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.ToList().Count, expectedResult.Count);
-            Assert.AreEqual(result.ToList()[0].CategoryName, expectedResult[0].CategoryName);
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<Category>>(viewResult.ViewData.Model);
+            Assert.Equal(2, model.Count());
         }
     }
 }

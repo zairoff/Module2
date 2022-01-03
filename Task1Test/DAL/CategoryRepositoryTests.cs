@@ -1,31 +1,31 @@
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
 using System.Threading.Tasks;
 using Task1.Context;
 using Task1.DAL.Repositories;
 using Task1.DAL.UnitOfWork;
 using Task1.Models;
+using Xunit;
 
 namespace Task1Test.DAL
 {
-    [TestFixture]
     public class CategoryRepositoryTests
     {
-        private DbContextOptions<AppDbContext> options;
+        private readonly DbContextOptions<AppDbContext> options;
         private readonly Category category = new() { CategoryID = 1, CategoryName = "Test1", Description = "Test1" };
 
-        [SetUp]
-        public void Setup()
+        public CategoryRepositoryTests()
         {
             options = new DbContextOptionsBuilder<AppDbContext>()
-                    .UseInMemoryDatabase(databaseName: "temp.db").Options;
+                        .UseInMemoryDatabase(databaseName: "temp.db").Options;
         }
 
-        [Test]
+        [Fact]        
         public async Task Add_Should_Add_Category()
         {
             using (var context = new AppDbContext(options))
             {
+                await context.Database.EnsureDeletedAsync();
+
                 var repository = new CategoryRepository(context);
                 var unitofwork = new UnitOfWork(context);
 
@@ -37,13 +37,13 @@ namespace Task1Test.DAL
             {
                 var result = await context.Categories.FirstOrDefaultAsync();
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(category.CategoryID, result.CategoryID);
-                Assert.AreEqual(category.CategoryName, result.CategoryName);
+                Assert.NotNull(result);
+                Assert.Equal(category.CategoryID, result.CategoryID);
+                Assert.Equal(category.CategoryName, result.CategoryName);
             }                
         }
 
-        [Test]
+        [Fact]
         public async Task Update_Should_Update_Category()
         {
             var expectedResult = new Category { CategoryID = 2, CategoryName = "AA" };
@@ -75,12 +75,12 @@ namespace Task1Test.DAL
             {
                 var result = await context.Categories.FirstOrDefaultAsync();
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(expectedResult.CategoryName, result.CategoryName);
+                Assert.NotNull(result);
+                Assert.Equal(expectedResult.CategoryName, result.CategoryName);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task Delete_Should_Delete_Category()
         {
             using (var context = new AppDbContext(options))
@@ -108,11 +108,11 @@ namespace Task1Test.DAL
             {
                 var result = await context.Categories.FirstOrDefaultAsync();
 
-                Assert.IsNull(result);
+                Assert.Null(result);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task GetByID_Should_Get_Category_ByID()
         {
             using (var context = new AppDbContext(options))
@@ -131,7 +131,7 @@ namespace Task1Test.DAL
                 var repository = new CategoryRepository(context);
                 var result = await repository.GetByIdAsync(category.CategoryID);
 
-                Assert.IsNotNull(result);
+                Assert.NotNull(result);
             }
         }
     }
