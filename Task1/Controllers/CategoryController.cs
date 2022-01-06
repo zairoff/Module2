@@ -22,5 +22,13 @@ namespace Task1.Controllers
 
             return View(categories);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Photo(int id)
+        {
+            var category = await _categoryService.GetByIdAsync(id);
+
+            return View(category);
+        }
     }
 }

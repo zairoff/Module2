@@ -9,6 +9,7 @@
         <tr>
             <th scope="col">CategoryName</th>
             <th scope="col">Description</th>
+            <th scope="col">ImageLink</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
         <tr>
             <td>@category.CategoryName</td>
             <td>@category.Description</td>
+            <td><a class="alert-link" asp-controller="Category" asp-route-id="@category.CategoryID" asp-action="Photo">image</a></td>
         </tr>
         }
     </tbody>
