@@ -29,13 +29,21 @@ namespace Task1.Controllers
         {
             var category = await _categoryService.GetByIdAsync(id);
 
+            return View(category);
+        }
+
+        [HttpGet, Route(nameof(PictureEdit))]
+        public async Task<IActionResult> PictureEdit(int id)
+        {
+            var category = await _categoryService.GetByIdAsync(id);
+
             var categoryView = CategoryToView(category);
 
             return View(categoryView);
         }
 
-        [HttpPost, Route(nameof(Picture))]
-        public async Task<IActionResult> Picture(CategoryView categoryView)
+        [HttpPost, Route(nameof(PictureEdit))]
+        public async Task<IActionResult> PictureEdit(CategoryView categoryView)
         {
             var category = await _categoryService.GetByIdAsync(categoryView.CategoryID);
 
@@ -50,7 +58,15 @@ namespace Task1.Controllers
 
             var resultView = CategoryToView(category);
 
-            return View(resultView);
+            return RedirectToAction(nameof(Picture), new { id = resultView.CategoryID });
+        }
+
+        [HttpGet, Route("/images/{id}")]
+        public async Task<IActionResult> Images(int id)
+        {
+            var category = await _categoryService.GetByIdAsync(id);
+
+            return View(category);
         }
 
         private CategoryView CategoryToView(Category category)
