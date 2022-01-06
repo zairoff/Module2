@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Threading.Tasks;
+using Task1.Models;
 using Task1.Services.Contracts;
+using Task1.ViewModels;
 
 namespace Task1.Controllers
 {
@@ -23,12 +24,44 @@ namespace Task1.Controllers
             return View(categories);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Photo(int id)
+        [HttpGet, Route(nameof(Picture))]
+        public async Task<IActionResult> Picture(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
 
-            return View(category);
+            var categoryView = CategoryToView(category);
+
+            return View(categoryView);
+        }
+
+        [HttpPost, Route(nameof(Picture))]
+        public async Task<IActionResult> Picture(CategoryView categoryView)
+        {
+            var category = await _categoryService.GetByIdAsync(categoryView.CategoryID);
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await categoryView.FormFile.CopyToAsync(memoryStream);
+
+                category.Picture = memoryStream.ToArray();
+
+                await _categoryService.UpdateAsync(category);
+            }
+
+            var resultView = CategoryToView(category);
+
+            return View(resultView);
+        }
+
+        private CategoryView CategoryToView(Category category)
+        {
+            return new CategoryView
+            {
+                CategoryID = category.CategoryID,
+                CategoryName = category.CategoryName,
+                Description = category.Description,
+                Picture = category.Picture
+            };
         }
     }
 }

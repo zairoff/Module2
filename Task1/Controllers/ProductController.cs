@@ -126,25 +126,7 @@ namespace Task1.Controllers
             };
         }
 
-        private IEnumerable<CategoryView> CategoryToView(IEnumerable<Category> categories)
-        {
-            var categoryViews = new List<CategoryView>();
 
-            foreach (var category in categories)
-            {
-                var categoryView = new CategoryView
-                {
-                    CategoryID = category.CategoryID,
-                    CategoryName = category.CategoryName,
-                    Description = category.Description,
-                    Picture = category.Picture
-                };
-
-                categoryViews.Add(categoryView);
-            }
-
-            return categoryViews;
-        }
 
         private IEnumerable<SupplierView> SupplierToView(IEnumerable<Supplier> suppliers)
         {

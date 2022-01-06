@@ -64,7 +64,7 @@ namespace Task1
                 app.UseHsts();
             }
 
-            app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
+            //app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 
             loggerFactory.AddFile("Logs/log-{Date}.txt");
 

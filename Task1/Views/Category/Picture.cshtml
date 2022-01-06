@@ -1,0 +1,11 @@
+﻿@model Task1.ViewModels.CategoryView
+
+<h3>@Model.CategoryName</h3>
+<img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" />
+
+
+<form enctype="multipart/form-data"  asp-action="Picture">
+    <input type="text" asp-for="CategoryID" class="form-control" hidden />
+    <input asp-for="FormFile" type="file" />
+    <input class="btn btn-primary" type="submit" />
+</form>

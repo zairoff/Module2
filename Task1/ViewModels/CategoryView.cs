@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,5 +18,7 @@ namespace Task1.ViewModels
         public string Description { get; set; }
 
         public byte[] Picture { get; set; }
+
+        public IFormFile FormFile { get; set; }
     }
 }

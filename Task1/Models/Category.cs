@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Task1.Models
+﻿namespace Task1.Models
 {
     public class Category
     {
