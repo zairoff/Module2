@@ -8,9 +8,6 @@ namespace Task1.DAL.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        ICategoryRepository Category { get; }
-        ISupplierRepository Supplier { get; }
-        IProductRepository Product { get; }
-        Task<int> CompleteAsync();
+        Task CompleteAsync();
     }
 }

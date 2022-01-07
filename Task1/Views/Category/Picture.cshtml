@@ -1,0 +1,7 @@
+﻿@model Category
+
+<h3>@Model.CategoryName</h3>
+<img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" />
+<br />
+<a class="btn btn-primary mt-2" asp-controller="Category" asp-action="Index">Back to list</a>
+<a class="btn btn-primary mt-2" asp-controller="Category" asp-route-id="@Model.CategoryID" asp-action="PictureEdit">Edit</a>

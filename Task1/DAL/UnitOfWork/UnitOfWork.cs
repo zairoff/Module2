@@ -12,20 +12,11 @@ namespace Task1.DAL.UnitOfWork
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
-            Category = new CategoryRepository(_context);
-            Product = new ProductRepository(_context);
-            Supplier = new SupplierRepository(_context);
         }
 
-        public ICategoryRepository Category { get; private set; }
-
-        public ISupplierRepository Supplier { get; private set; }
-
-        public IProductRepository Product { get; private set; }
-
-        public async Task<int> CompleteAsync()
+        public async Task CompleteAsync()
         {
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public void Dispose()

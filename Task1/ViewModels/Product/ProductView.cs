@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Task1.ViewModels
+namespace Task1.ViewModels.Product
 {
-    public class ProductViewModel
+    public class ProductView
     {
-        public int ProductID { get; set; }
+        public int? ProductID { get; set; }
 
         [Required]
         public string ProductName { get; set; }

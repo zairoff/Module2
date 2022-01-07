@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Task1.ViewModels
 {
-    public class CategoryViewModel
+    public class CategoryView
     {
         public int CategoryID { get; set; }
 
@@ -17,5 +18,7 @@ namespace Task1.ViewModels
         public string Description { get; set; }
 
         public byte[] Picture { get; set; }
+
+        public IFormFile FormFile { get; set; }
     }
 }

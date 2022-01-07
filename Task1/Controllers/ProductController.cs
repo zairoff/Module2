@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Task1.Models;
 using Task1.Services.Contracts;
 using Task1.ViewModels;
+using Task1.ViewModels.Product;
 
 namespace Task1.Controllers
 {
@@ -12,12 +14,14 @@ namespace Task1.Controllers
         private readonly IProductService _productService;
         private readonly ISupplierService _supplierService;
         private readonly ICategoryService _categoryService;
+        private readonly ILogger _logger;
 
-        public ProductController(IProductService productService, ISupplierService supplierService, ICategoryService categoryService)
+        public ProductController(IProductService productService, ISupplierService supplierService, ICategoryService categoryService, ILogger<ProductController> logger)
         {
             _productService = productService;
             _supplierService = supplierService;
             _categoryService = categoryService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -25,46 +29,72 @@ namespace Task1.Controllers
             var products = await _productService.GetAllAsync();
 
             return View(products);
-        }
+        }        
 
-        [HttpGet]
+        [HttpGet, Route("Edit")]
         public async Task<IActionResult> Edit(int id)
         {
-            var product = await _productService.GetByIdAsync(id);
-            var categories = await _categoryService.GetAllAsync();
-            var suppliers = await _supplierService.GetAllAsync();
-
-            var productViewModel = new ProductUpdateViewModel
-            {
-                Product = ProductToView(product),
-                Categories = CategoryToView(categories),
-                Suppliers = SupplierToView(suppliers)
-            };
-
             ViewBag.Title = "Update Product";
+            await PopulateDropdownList();
+            var product = await _productService.GetByIdAsync((int)id);
+            var productView = ProductToView(product);
 
-            return View(productViewModel);
-        }    
+            return View(productView);
+        }
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(ProductUpdateViewModel productUpdateViewModel)
+        [HttpPost, Route("Edit")]
+        public async Task<IActionResult> Edit(ProductView productView)
         {
             if (!ModelState.IsValid)
-                return Content("Model state is not valid");
+            {
+                ViewBag.Title = "Update Product";
+                await PopulateDropdownList();
+                return View(productView);
+            }                
 
-            var product = ViewToProduct(productUpdateViewModel.Product);
-            if (product.ProductID == 0)
-                await _productService.AddAsync(product);
-            else
-                await _productService.UpdateAsync(product);
+            var product = ViewToProduct(productView);
+           
+            await _productService.UpdateAsync(product);
 
             return RedirectToAction(nameof(Index));
         }
 
-        // Temporary
-        private ProductViewModel ProductToView(Product product)
+        [HttpGet, Route("Create")]
+        public async Task<IActionResult> Create()
         {
-            return new ProductViewModel
+            await PopulateDropdownList();
+            ViewBag.Title = "New Product";
+
+            return View();
+        }
+
+        [HttpPost, Route("Create")]
+        public async Task<IActionResult> Create(ProductView productView)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Title = "New Product";
+                await PopulateDropdownList();
+                return View(productView);
+            }
+
+            var product = ViewToProduct(productView);
+
+            await _productService.AddAsync(product);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task PopulateDropdownList()
+        {
+            ViewBag.Categories = await _categoryService.GetAllAsync();
+            ViewBag.Suppliers = await _supplierService.GetAllAsync();
+        }
+
+        // Temporary
+        private ProductView ProductToView(Product product)
+        {
+            return new ProductView
             {
                 ProductID = product.ProductID,
                 CategoryID = product.CategoryID,
@@ -79,11 +109,11 @@ namespace Task1.Controllers
             };
         }
 
-        private Product ViewToProduct(ProductViewModel productView)
+        private Product ViewToProduct(ProductView productView)
         {
             return new Product
             {
-                ProductID = productView.ProductID,
+                ProductID = (productView.ProductID == null) ? 0 : (int)productView.ProductID,
                 CategoryID = productView.CategoryID,
                 SupplierID = productView.SupplierID,
                 Discontinued = productView.Discontinued,
@@ -96,33 +126,15 @@ namespace Task1.Controllers
             };
         }
 
-        private IEnumerable<CategoryViewModel> CategoryToView(IEnumerable<Category> categories)
+
+
+        private IEnumerable<SupplierView> SupplierToView(IEnumerable<Supplier> suppliers)
         {
-            var categoryViews = new List<CategoryViewModel>();
-
-            foreach (var category in categories)
-            {
-                var categoryView = new CategoryViewModel
-                {
-                    CategoryID = category.CategoryID,
-                    CategoryName = category.CategoryName,
-                    Description = category.Description,
-                    Picture = category.Picture
-                };
-
-                categoryViews.Add(categoryView);
-            }
-
-            return categoryViews;
-        }
-
-        private IEnumerable<SupplierViewModel> SupplierToView(IEnumerable<Supplier> suppliers)
-        {
-            var supplierViews = new List<SupplierViewModel>();
+            var supplierViews = new List<SupplierView>();
 
             foreach (var supplier in suppliers)
             {
-                var supplierView = new SupplierViewModel
+                var supplierView = new SupplierView
                 {
                     SupplierID = supplier.SupplierID,
                     Address = supplier.Address,

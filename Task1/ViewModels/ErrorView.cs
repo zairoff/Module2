@@ -2,7 +2,7 @@ using System;
 
 namespace Task1.ViewModels
 {
-    public class ErrorViewModel
+    public class ErrorView
     {
         public string RequestId { get; set; }
 
