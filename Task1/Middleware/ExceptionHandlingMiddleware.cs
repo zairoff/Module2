@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Task1.Extensions;
 using Task1.ViewModels;
 
-namespace Task1.ExceptionHandler
+namespace Task1.Middleware
 {
     public class ExceptionHandlingMiddleware
     {

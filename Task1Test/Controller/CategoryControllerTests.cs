@@ -12,15 +12,17 @@ namespace Task1Test.Controller
 {
     public class CategoryControllerTests
     {
-            private Mock<ICategoryService> _mockService;
+            private Mock<ICategoryService> _mockCategoryService;
+            private Mock<ICacheService> _mockCacheService;
             private CategoryController _controller;
             private readonly Category category1 = new() { CategoryID = 1, CategoryName = "A", Description = "B" };
             private readonly Category category2 = new() { CategoryID = 2, CategoryName = "C", Description = "D" };
 
         public CategoryControllerTests()
         {
-            _mockService = new Mock<ICategoryService>();
-            _controller = new CategoryController(_mockService.Object);
+            _mockCategoryService = new Mock<ICategoryService>();
+            _mockCacheService = new Mock<ICacheService>();
+            _controller = new CategoryController(_mockCategoryService.Object, _mockCacheService.Object);
         }
 
         [Fact]
@@ -29,7 +31,7 @@ namespace Task1Test.Controller
             var mockedResult = new List<Category> { category1, category2 };
             var expected = new List<Category> { category1, category2 };
 
-            _mockService.Setup(c => c.GetAllAsync()).ReturnsAsync(expected);
+            _mockCategoryService.Setup(c => c.GetAllAsync()).ReturnsAsync(expected);
 
             var result = await _controller.Index();
 

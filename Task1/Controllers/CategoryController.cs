@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.IO;
 using System.Threading.Tasks;
+using Task1.Attributes;
+using Task1.Enums;
 using Task1.Models;
 using Task1.Services.Contracts;
 using Task1.ViewModels;
@@ -11,10 +13,12 @@ namespace Task1.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly ICacheService _cacheService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ICacheService cacheService)
         {
             _categoryService = categoryService;
+            _cacheService = cacheService;
         }
 
         public async Task<IActionResult> Index()
@@ -24,12 +28,25 @@ namespace Task1.Controllers
             return View(categories);
         }
 
+        /// <summary>
+        /// Return an image from cached in middleware
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category</returns>
         [HttpGet, Route(nameof(Picture))]
+        [Cache(CacheBy = CacheType.Image)]
         public async Task<IActionResult> Picture(int id)
         {
-            var category = await _categoryService.GetByIdAsync(id);
+            var obj = await _cacheService.GetCacheAsync(id);
 
-            return View(category);
+            if(obj is byte[] image)
+            {
+                var category = new Category { CategoryID = id, Picture = image };
+                return View(category);
+            }
+
+            // test
+            return Content("No cache!");
         }
 
         [HttpGet, Route(nameof(PictureEdit))]

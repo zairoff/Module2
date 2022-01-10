@@ -1,20 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Task1.Context;
 using Task1.DAL.IRepositories;
 using Task1.DAL.Repositories;
 using Task1.DAL.UnitOfWork;
-using Task1.ExceptionHandler;
+using Task1.Middleware;
 using Task1.Services;
 using Task1.Services.Contracts;
 
@@ -43,6 +38,9 @@ namespace Task1
             services.AddScoped<ISupplierRepository, SupplierRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IFileService, ImageFileSystemService>();
+            services.AddScoped<ICacheService, ImageCacheInMemoryService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
@@ -75,12 +73,16 @@ namespace Task1
 
             app.UseAuthorization();
 
+            app.UseMiddleware(typeof(ImageCacheMiddleware));
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
         }
     }
 }
